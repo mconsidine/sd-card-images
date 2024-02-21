@@ -24,6 +24,8 @@ zcat "${BOOT}" "${DEBIAN}" > image.bin
 LOOP1=$(losetup -f -P --show image.bin) && {
     trap 'losetup -d "${LOOP1}"' ERR
     sleep 1
+    fdisk -l "${LOOP1}"
+    blkid "${LOOP1}" "${LOOP1}p1" "${LOOP1}p2"
     fsck.vfat -p -f "${LOOP1}p1"
     fsck.ext4 -p -f "${LOOP1}p2"
     trap '-' ERR
