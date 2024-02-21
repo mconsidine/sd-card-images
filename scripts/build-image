@@ -9,14 +9,14 @@ set -ex
 # >>> (0.95 * 4000000000 // 512) * 512
 # 3800000000.0 
 IMAGE_SIZE=${IMAGE_SIZE:-3800000000}
-if [ $IMAGE_SIZE -lt 1000000000 ]; then
+if [ "$IMAGE_SIZE" -lt 1000000000 ]; then
   echo "IMAGE_SIZE of 1GB or less unsupported!"
   exit 1
 fi
 rm -f "${IMAGE}"
 fallocate -v -l "${IMAGE_SIZE}" "${IMAGE}" # 3,800,000,000 bytes
 
-parted -s "${IMAGE}" mklabel msdos
+parted -s "${IMAGE}" mklabel gpt
 parted -s "${IMAGE}" mkpart primary fat32 -- 4MiB 32MiB # 28 MiB (29,360,128 bytes)
 parted -s "${IMAGE}" mkpart primary ext2 -- 32MiB -1
 parted -s "${IMAGE}" set 2 boot on
