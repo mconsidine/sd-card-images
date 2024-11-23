@@ -20,13 +20,13 @@ jobs:
         include:
           - os: debian
             suite: bullseye
-            arch: i386
+            arch: amd64
           - os: debian
             suite: bookworm
-            arch: i386
+            arch: amd64
           - os: debian
             suite: sid
-            arch: i386
+            arch: amd64
       fail-fast: false
 
     env:
@@ -55,7 +55,6 @@ jobs:
                              flex \
                              gcc \
                              gcc-arm-none-eabi \
-                             gcc-i686-linux-gnu \
                              git \
                              libssl-dev \
                              make \
@@ -81,10 +80,10 @@ jobs:
             ARTIFACTS_DIR=$RUNNER_TEMP \
             U_BOOT_GIT_REV="v2023.07" \
             U_BOOT_GIT_URL="https://github.com/u-boot/u-boot.git" \
-            build-boot qemu_x86_virt \
-                       qemu-x86 \
-                       qemu-x86_defconfig \
-                       i686-linux-gnu
+            build-boot qemu_x86_64_virt \
+                       qemu-x86_64 \
+                       qemu-x86_64_defconfig \
+                       x86_64-linux-gnu
 
     - name: Build ${{ matrix.suite }} ${{ matrix.arch }}
       timeout-minutes: 5
